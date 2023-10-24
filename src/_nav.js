@@ -15,6 +15,10 @@ import {
   cilPeople,
   cilImage,
   cilMusicNote,
+  cilMoney,
+  cilBuilding,
+  cilGift,
+  cilLifeRing,
 } from "@coreui/icons";
 import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 
@@ -143,25 +147,25 @@ const _nav = [
     component: CNavItem,
     name: "Surveys",
     to: "/surveys",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: "Challenges",
     to: "/challenges",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: "Spin a Wheel",
     to: "/spin-a-wheel",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilLifeRing} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: "Redeeemed Gift Cards",
     to: "/redeemed-gift-cards",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilGift} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
@@ -171,13 +175,13 @@ const _nav = [
     component: CNavItem,
     name: "Organizations",
     to: "/charity-organizations",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: "Donations",
     to: "/charity-donations",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
   },
 
   // {
