@@ -7,6 +7,13 @@ import StoriesPage from "./pages/Stories";
 import PostsPage from "./pages/Post";
 import MusicPage from "./pages/Music";
 import UsersPage from "./pages/Users";
+import Reportedpost from "./pages/Reportedpost";
+import Challanges from "./pages/Challanges";
+
+import Dashboard from "./views/dashboard/Dashboard";
+import Privacy from "./pages/Privacy";
+import Help from "./pages/Help";
+import Setting from "./pages/Setting";
 
 const loading = (
   <div className="pt-3 text-center">
@@ -55,7 +62,31 @@ function App() {
           <Route
             path="/posts/:id"
             name="Posts"
-            element={user ? <PostsPage /> : <Login />}
+            // element={user ? <PostsPage /> : <Login />}
+            element={<PostsPage /> }
+            
+          />
+
+<Route
+            path="/privacy"
+            name="Privacy"
+            // element={user ? <PostsPage /> : <Login />}
+            element={<Privacy /> }
+            
+          />
+           <Route
+            path="/help"
+            name="Help"
+            // element={user ? <PostsPage /> : <Login />}
+            element={<Help /> }
+            
+          />
+            <Route
+            path="/setting"
+            name="Setting"
+            // element={user ? <PostsPage /> : <Login />}
+            element={<Setting /> }
+            
           />
           <Route
             path="/stories"
@@ -67,7 +98,21 @@ function App() {
             name="Music"
             element={user ? <MusicPage /> : <Login />}
           />
-        </Routes>
+           <Route
+            path="/reportedposts"
+            name="ReportedPosts"
+            element={user ? <Reportedpost /> : <Login />}
+          />
+
+      <Route
+            path="/challenges"
+            name="Challanges"
+            element={user ? <Challanges /> : <Login />}
+          />
+        
+
+       
+</Routes>
       </Suspense>
     </BrowserRouter>
   );

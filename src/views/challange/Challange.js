@@ -66,8 +66,9 @@ import WidgetsBrand from "../widgets/WidgetsBrand";
 import WidgetsDropdown from "../widgets/WidgetsDropdown";
 import axios from "axios";
 import { useAuthContext } from "src/hooks/useAuthContext";
+import { Link } from "react-router-dom";
 
-const Music = () => {
+const Challange = () => {
   const random = (min, max) =>
     Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -79,12 +80,13 @@ const Music = () => {
   const [loading, setLoading] = React.useState(false);
   async function getUsers() {
     await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/music/`, {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/challlanges/`, {
         headers: { Authorization: `Bearer ${user?.token}` },
       })
       .then((response) => {
-        console.log(response.data.data);
-        setUsers(response.data.data);
+
+        console.log(response.data.challanges);
+        setUsers(response.data.challanges);
       });
   }
 
@@ -164,8 +166,8 @@ const Music = () => {
         alert("Failed to add music");
       });
   };
-  // React.useEffect(() => {
-  //   // getUsers();
+  // React.(() => {
+  //   getUsers();
   // }, []);
 
   return (
@@ -423,7 +425,7 @@ const Music = () => {
                 justifyContent: "space-between",
               }}
             >
-              <div>Music</div>
+              <div>Challanges</div>
               <CButton onClick={() => setIsModal2Open(true)}>Add Music</CButton>
             </CCardHeader>
             <CCardBody>
@@ -535,13 +537,13 @@ const Music = () => {
                       Name
                     </CTableHeaderCell>
                     <CTableHeaderCell className="text-center">
-                      Genre
+                      Total Responses
                     </CTableHeaderCell>
                     <CTableHeaderCell className="text-center">
-                      Artist
+                      Created At
                     </CTableHeaderCell>
                     <CTableHeaderCell className="text-center">
-                      Play
+                      View Responses
                     </CTableHeaderCell>
                     <CTableHeaderCell>Delete</CTableHeaderCell>
                   </CTableRow>
@@ -549,22 +551,22 @@ const Music = () => {
                 <CTableBody>
                   {users?.map((item, index) => (
                     <CTableRow v-for="item in tableItems" key={index}>
-                      <CTableDataCell>
-                        <div>{item.name}</div>
+                      <CTableDataCell className="text-center">
+                        <div>{item.challange.title}</div>
                         {/* <div className="small text-medium-emphasis">
                           <span>{item.username}</span> | {item.email}
                         </div> */}
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
-                        <div>{item.genre}</div>
+                        <div> {item.challange.attempts}</div>
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
-                        <div>{item.artist}</div>
+                        <div>{item.challange.createdAt.split("T")[0]}</div>
                       </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <audio controls>
-                          <source src={item.url} type="audio/mpeg" />
-                        </audio>
+                      <CTableDataCell className="text-center " style={{color:'blue'}}>
+
+                        View 
+
                       </CTableDataCell>
                       <CTableDataCell>
                         <CAvatar
@@ -593,4 +595,4 @@ const Music = () => {
   );
 };
 
-export default Music;
+export default Challange;

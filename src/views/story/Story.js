@@ -110,9 +110,9 @@ const Story = () => {
       });
   }
 
-  React.useEffect(() => {
-    getUsers();
-  }, []);
+  // React.useEffect(() => {
+  //   // getUsers();
+  // }, []);
 
   return (
     <>

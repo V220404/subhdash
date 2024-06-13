@@ -241,9 +241,9 @@ const Dashboard = () => {
       });
   }
 
-  React.useEffect(() => {
-    getUsers();
-  }, []);
+  // React.useEffect(() => {
+  //   // getUsers();
+  // }, []);
 
   return (
     <>

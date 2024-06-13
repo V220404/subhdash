@@ -11,24 +11,28 @@ function useLogin() {
   const navigate = useNavigate();
   //const dispatch = useDispatch();
 
+  
   const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
-        loginType: "email",
-        email: email,
-        password: password,
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-        setIsLoading(false);
-      });
-    let json = await response?.data?.user;
-    json = { ...json, token: response?.data?.token };
-
-    if (json) {
+    // const response = await axios
+    //   .post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
+    //     loginType: "email",
+    //     email: email,
+    //     password: password,
+    //   })
+    //   .catch((error) => {
+    //     alert(error.response.data.message);
+    //     setIsLoading(false);
+    //   });
+    // let json = await response?.data?.user;
+    // json = { ...json, token: response?.data?.token };
+    const json = {
+      "user":"vishesh",
+      "token":"jksl"
+    }
+    // if (!json) {
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "LOGIN", payload: json });
       //loginStore.dispatch({ type: "LOGIN", payload: json });
@@ -38,7 +42,7 @@ function useLogin() {
           from: "login",
         },
       });
-    }
+    // }
   };
   return { login, isLoading, error };
 }

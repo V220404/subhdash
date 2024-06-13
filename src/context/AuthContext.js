@@ -31,9 +31,9 @@ export function AuthContextProvider({ children }) {
     }
   }
 
-  useEffect(() => {
-    fetchDetails()
-  }, [state])
+  // useEffect(() => {
+  //   // fetchDetails()
+  // }, [state])
   return <AuthContext.Provider value={{ ...state, dispatch }}>{children}</AuthContext.Provider>
 }
 

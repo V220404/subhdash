@@ -1,20 +1,21 @@
-import React from "react";
 
+ 
+
+
+import React, { useState } from 'react';
 import {
   CAvatar,
   CButton,
-  CButtonGroup,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
+  CHeaderToggler,
   CModal,
   CModalBody,
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CProgress,
   CRow,
   CTable,
   CTableBody,
@@ -23,196 +24,34 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from "@coreui/react";
-import { CChartLine } from "@coreui/react-chartjs";
-import { getStyle, hexToRgba } from "@coreui/utils";
-import CIcon from "@coreui/icons-react";
-import {
-  cibCcAmex,
-  cibCcApplePay,
-  cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
-  cibGoogle,
-  cibFacebook,
-  cibLinkedin,
-  cifBr,
-  cifEs,
-  cifFr,
-  cifIn,
-  cifPl,
-  cifUs,
-  cibTwitter,
-  cilCloudDownload,
-  cilPeople,
-  cilUser,
-  cilUserFemale,
-} from "@coreui/icons";
-
-import avatar1 from "src/assets/images/avatars/1.jpg";
-import avatar2 from "src/assets/images/avatars/2.jpg";
-import avatar3 from "src/assets/images/avatars/3.jpg";
-import avatar4 from "src/assets/images/avatars/4.jpg";
-import avatar5 from "src/assets/images/avatars/5.jpg";
-import avatar6 from "src/assets/images/avatars/6.jpg";
-
-import TickIcon from "src/assets/accept.png";
-import CrossIcon from "src/assets/delete-button.png";
-import TrashIcon from "src/assets/delete.png";
-
-import WidgetsBrand from "../widgets/WidgetsBrand";
-import WidgetsDropdown from "../widgets/WidgetsDropdown";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "src/hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import CIcon from "@coreui/icons-react";
+import { cilMenu } from "@coreui/icons";
+import { useDispatch, useSelector } from "react-redux";
+
+// Your existing imports...
 
 const Users = () => {
-  const random = (min, max) =>
-    Math.floor(Math.random() * (max - min + 1) + min);
-
-  const progressExample = [
-    { title: "Visits", value: "29.703 Users", percent: 40, color: "success" },
-    { title: "Unique", value: "24.093 Users", percent: 20, color: "info" },
-    {
-      title: "Pageviews",
-      value: "78.706 Views",
-      percent: 60,
-      color: "warning",
-    },
-    { title: "New Users", value: "22.123 Users", percent: 80, color: "danger" },
-    {
-      title: "Bounce Rate",
-      value: "Average Rate",
-      percent: 40.15,
-      color: "primary",
-    },
-  ];
-
-  const progressGroupExample1 = [
-    { title: "Monday", value1: 34, value2: 78 },
-    { title: "Tuesday", value1: 56, value2: 94 },
-    { title: "Wednesday", value1: 12, value2: 67 },
-    { title: "Thursday", value1: 43, value2: 91 },
-    { title: "Friday", value1: 22, value2: 73 },
-    { title: "Saturday", value1: 53, value2: 82 },
-    { title: "Sunday", value1: 9, value2: 69 },
-  ];
-
-  const progressGroupExample2 = [
-    { title: "Male", icon: cilUser, value: 53 },
-    { title: "Female", icon: cilUserFemale, value: 43 },
-  ];
-
-  const progressGroupExample3 = [
-    { title: "Organic Search", icon: cibGoogle, percent: 56, value: "191,235" },
-    { title: "Facebook", icon: cibFacebook, percent: 15, value: "51,223" },
-    { title: "Twitter", icon: cibTwitter, percent: 11, value: "37,564" },
-    { title: "LinkedIn", icon: cibLinkedin, percent: 8, value: "27,319" },
-  ];
-
-  const tableExample = [
-    {
-      avatar: { src: avatar1, status: "success" },
-      user: {
-        name: "Yiorgos Avraamu",
-        new: true,
-        registered: "Jan 1, 2021",
-      },
-      country: { name: "USA", flag: cifUs },
-      usage: {
-        value: 50,
-        period: "Jun 11, 2021 - Jul 10, 2021",
-        color: "success",
-      },
-      payment: { name: "Mastercard", icon: cibCcMastercard },
-      activity: "10 sec ago",
-    },
-    {
-      avatar: { src: avatar2, status: "danger" },
-      user: {
-        name: "Avram Tarasios",
-        new: false,
-        registered: "Jan 1, 2021",
-      },
-      country: { name: "Brazil", flag: cifBr },
-      usage: {
-        value: 22,
-        period: "Jun 11, 2021 - Jul 10, 2021",
-        color: "info",
-      },
-      payment: { name: "Visa", icon: cibCcVisa },
-      activity: "5 minutes ago",
-    },
-    {
-      avatar: { src: avatar3, status: "warning" },
-      user: { name: "Quintin Ed", new: true, registered: "Jan 1, 2021" },
-      country: { name: "India", flag: cifIn },
-      usage: {
-        value: 74,
-        period: "Jun 11, 2021 - Jul 10, 2021",
-        color: "warning",
-      },
-      payment: { name: "Stripe", icon: cibCcStripe },
-      activity: "1 hour ago",
-    },
-    {
-      avatar: { src: avatar4, status: "secondary" },
-      user: { name: "Enéas Kwadwo", new: true, registered: "Jan 1, 2021" },
-      country: { name: "France", flag: cifFr },
-      usage: {
-        value: 98,
-        period: "Jun 11, 2021 - Jul 10, 2021",
-        color: "danger",
-      },
-      payment: { name: "PayPal", icon: cibCcPaypal },
-      activity: "Last month",
-    },
-    {
-      avatar: { src: avatar5, status: "success" },
-      user: {
-        name: "Agapetus Tadeáš",
-        new: true,
-        registered: "Jan 1, 2021",
-      },
-      country: { name: "Spain", flag: cifEs },
-      usage: {
-        value: 22,
-        period: "Jun 11, 2021 - Jul 10, 2021",
-        color: "primary",
-      },
-      payment: { name: "Google Wallet", icon: cibCcApplePay },
-      activity: "Last week",
-    },
-    {
-      avatar: { src: avatar6, status: "danger" },
-      user: {
-        name: "Friderik Dávid",
-        new: true,
-        registered: "Jan 1, 2021",
-      },
-      country: { name: "Poland", flag: cifPl },
-      usage: {
-        value: 43,
-        period: "Jun 11, 2021 - Jul 10, 2021",
-        color: "success",
-      },
-      payment: { name: "Amex", icon: cibCcAmex },
-      activity: "Last week",
-    },
-  ];
   const navigate = useNavigate();
-  const [users, setUsers] = React.useState([]);
   const { user } = useAuthContext();
+  const [users, setUsers] = React.useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [deleteId, setDeleteId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const dispatch = useDispatch();
+
   async function getUsers() {
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/user/all`, {
         headers: { Authorization: `Bearer ${user?.token}` },
       })
       .then((response) => {
-        console.log(response.data.data);
         setUsers(response.data.data);
       });
   }
@@ -222,15 +61,10 @@ const Users = () => {
     await axios
       .post(
         `${process.env.REACT_APP_BACKEND_URL}/user/delete`,
-        {
-          id: users[deleteId]._id,
-        },
-        {
-          headers: { Authorization: `Bearer ${user?.token}` },
-        }
+        { id: users[deleteId]._id },
+        { headers: { Authorization: `Bearer ${user?.token}` } }
       )
-      .then((response) => {
-        console.log(response.data.data);
+      .then(() => {
         alert("User Deleted");
         setIsModalOpen(false);
         setDeleteId(null);
@@ -242,383 +76,136 @@ const Users = () => {
       });
   }
 
-  React.useEffect(() => {
-    getUsers();
-  }, []);
+  // Uncomment to fetch users on component mount
+  // React.useEffect(() => {
+  //   getUsers();
+  // }, []);
 
+  // Calculate total impressions
+  const totalImpressions = users.reduce((total, user) => total + user.impressions, 0);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  
   return (
     <>
-      {/* <WidgetsDropdown /> */}
-      {/* <CCard className="mb-4">
-        <CCardBody>
-          <CRow>
-            <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-medium-emphasis">
-                January - July 2021
-              </div>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {["Day", "Month", "Year"].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === "Month"}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
-          </CRow>
-          <CChartLine
-            style={{ height: "300px", marginTop: "40px" }}
-            data={{
-              labels: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-              ],
-              datasets: [
-                {
-                  label: "My First dataset",
-                  backgroundColor: hexToRgba(getStyle("--cui-info"), 10),
-                  borderColor: getStyle("--cui-info"),
-                  pointHoverBackgroundColor: getStyle("--cui-info"),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
-                  fill: true,
-                },
-                {
-                  label: "My Second dataset",
-                  backgroundColor: "transparent",
-                  borderColor: getStyle("--cui-success"),
-                  pointHoverBackgroundColor: getStyle("--cui-success"),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
-                },
-                {
-                  label: "My Third dataset",
-                  backgroundColor: "transparent",
-                  borderColor: getStyle("--cui-danger"),
-                  pointHoverBackgroundColor: getStyle("--cui-danger"),
-                  borderWidth: 1,
-                  borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65],
-                },
-              ],
+      <CHeaderToggler
+        className="ps-1"
+        onClick={() => dispatch({ type: "set", sidebarShow: !sidebarShow })}
+        style={{ marginTop: '15px' }}
+      >
+        <CIcon icon={cilMenu} size="xxl" style={{ color: 'white' }} />
+      </CHeaderToggler>
+
+      {/* Top Button   (Main Content Below) */}
+      <div style={{ display: 'flex', marginTop: '30px', marginLeft: '48px' }}>
+        <div style={{ gap: '28px' , marginTop:'5px' }}>
+          <p style={{ fontWeight: '500', fontSize: '24px', lineHeight: '30.72px', fontFamily: 'Lora', color: '#F7F7F7' }}>
+            Jiya & Sourabh’s Functions :
+          </p>
+        </div>
+
+      
+
+<div className="dropdown" style={{  marginLeft: '50px' , justify:'space-between' }}>
+          <button
+            className="dropbtn"
+            onClick={toggleDropdown}
+            style={{
+              backgroundColor: '#242527',
+              color: 'white',
+              // padding: '16px',
+              fontSize: '16px',
+              borderWidth:'0.8px',
+              cursor: 'pointer',
+              width:' 180px',
+              height:' 47px',
+              borderRadius:'8px',
+              borderColor:"#545454"
             }}
-            options={{
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  display: false,
-                },
-              },
-              scales: {
-                x: {
-                  grid: {
-                    drawOnChartArea: false,
-                  },
-                },
-                y: {
-                  ticks: {
-                    beginAtZero: true,
-                    maxTicksLimit: 5,
-                    stepSize: Math.ceil(250 / 5),
-                    max: 250,
-                  },
-                },
-              },
-              elements: {
-                line: {
-                  tension: 0.4,
-                },
-                point: {
-                  radius: 0,
-                  hitRadius: 10,
-                  hoverRadius: 4,
-                  hoverBorderWidth: 3,
-                },
-              },
-            }}
-          />
-        </CCardBody>
-        <CCardFooter>
-          <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
-            {progressExample.map((item, index) => (
-              <CCol className="mb-sm-2 mb-0" key={index}>
-                <div className="text-medium-emphasis">{item.title}</div>
-                <strong>
-                  {item.value} ({item.percent}%)
-                </strong>
-                <CProgress
-                  thin
-                  className="mt-2"
-                  color={item.color}
-                  value={item.percent}
-                />
-              </CCol>
-            ))}
-          </CRow>
-        </CCardFooter>
-      </CCard> */}
+          >
+            Reception
+          </button>
+          {isDropdownOpen && (
+            <div
+              className="dropdown-content"
+              style={{
+                display: 'block',
+                position: 'absolute',
+                backgroundColor: '#242527',
+                boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
+                zIndex: 1,
+                marginTop: '8px'
+              }}
+            >
+              <a href="#" style={{ color: 'white', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>Wedding</a>
+              <a href="#" style={{ color: 'white', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>Reception</a>
+              <a href="#" style={{ color: 'white', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>Mehendi</a>
+              <a href="#" style={{ color: 'white', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>Sangeet</a>
 
-      {/* <WidgetsBrand withCharts /> */}
-      {isModalOpen && (
-        <CModal
-          visible={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          aria-labelledby="LiveDemoExampleLabel"
-        >
-          <CModalHeader onClose={() => setIsModalOpen(false)}>
-            <CModalTitle id="LiveDemoExampleLabel">Delete User?</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            <p>Are you sure you want to delete the user?</p>
-            <p>username: {users[deleteId]?.user.username}</p>
-          </CModalBody>
-          <CModalFooter>
-            <CButton color="secondary" onClick={() => setIsModalOpen(false)}>
-              Close
-            </CButton>
-            <CButton color="primary" onClick={handleDelete} disabled={loading}>
-              {loading ? "Deleting..." : "Delete"}
-            </CButton>
-          </CModalFooter>
-        </CModal>
-      )}
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>Users</CCardHeader>
-            <CCardBody>
-              {/* <CRow>
-                <CCol xs={12} md={6} xl={6}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-info py-1 px-3">
-                        <div className="text-medium-emphasis small">
-                          New Clients
-                        </div>
-                        <div className="fs-5 fw-semibold">9,123</div>
-                      </div>
-                    </CCol>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">
-                          Recurring Clients
-                        </div>
-                        <div className="fs-5 fw-semibold">22,643</div>
-                      </div>
-                    </CCol>
-                  </CRow>
 
-                  <hr className="mt-0" />
-                  {progressGroupExample1.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
-                      <div className="progress-group-prepend">
-                        <span className="text-medium-emphasis small">
-                          {item.title}
-                        </span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="info" value={item.value1} />
-                        <CProgress thin color="danger" value={item.value2} />
-                      </div>
-                    </div>
-                  ))}
-                </CCol>
+          
+            </div>
+         
+          )}
+          <div>  <RiArrowDropDownLine  style={{width:'5px' , height:'5px'}}/></div>
+         
+        </div>
 
-                <CCol xs={12} md={6} xl={6}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">
-                          Pageviews
-                        </div>
-                        <div className="fs-5 fw-semibold">78,623</div>
-                      </div>
-                    </CCol>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-success py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">
-                          Organic
-                        </div>
-                        <div className="fs-5 fw-semibold">49,123</div>
-                      </div>
-                    </CCol>
-                  </CRow>
+        <div style={{ marginLeft:'400px' }}>
+        <button style={{ marginBottom: '5px',marginRight:'15px', borderRadius: '10px', background: 'linear-gradient(to right, #E58179, #DD6C87)', color: 'white', height: '40px', width: '150px' }}>Export</button>
+        </div>
+      </div>
 
-                  <hr className="mt-0" />
 
-                  {progressGroupExample2.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
-                      <div className="progress-group-header">
-                        <CIcon className="me-2" icon={item.icon} size="lg" />
-                        <span>{item.title}</span>
-                        <span className="ms-auto fw-semibold">
-                          {item.value}%
-                        </span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="warning" value={item.value} />
-                      </div>
-                    </div>
-                  ))}
+      <hr style={{ border: '1px solid grey', marginTop: '10px', marginLeft: '15px' }}></hr>
 
-                  <div className="mb-5"></div>
 
-                  {progressGroupExample3.map((item, index) => (
-                    <div className="progress-group" key={index}>
-                      <div className="progress-group-header">
-                        <CIcon className="me-2" icon={item.icon} size="lg" />
-                        <span>{item.title}</span>
-                        <span className="ms-auto fw-semibold">
-                          {item.value}{" "}
-                          <span className="text-medium-emphasis small">
-                            ({item.percent}%)
-                          </span>
-                        </span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="success" value={item.percent} />
-                      </div>
-                    </div>
-                  ))}
-                </CCol>
-              </CRow> */}
+      <div style={{ display: 'flex', gap: '234px', marginLeft: '25px', color: 'white', marginTop: '25px' }}>
+            <div style={{ marginTop: '15px' }}>
+                <p style={{ fontSize: '20px' , fontWeight:'400' , lineHeight:'25.6px' , fontFamily:'Lora' }}>Total Impressions  :  36435</p>
+            </div>
+            <div style={{ marginTop: '15px' }}>
+                <p style={{ fontSize: '20px' , fontWeight:'400' , lineHeight:'25.6px' , fontFamily:'Lora' }}>Photos Discovered  : 875/878</p>
+            </div>
+        </div>
 
-              <br />
 
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>User</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">
-                      Posts
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">
-                      Followers
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">
-                      Following
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">
-                      Verified
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>Delete</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {users?.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
-                      <CTableDataCell className="text-center">
-                        <CAvatar
-                          size="md"
-                          src={
-                            item.user.profile_pic
-                              ? item.user.profile_pic
-                              : avatar1
-                          }
-                        />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.fullName}</div>
-                        <div className="small text-medium-emphasis">
-                          <span>{item.user.username}</span> | {item.user.email}
-                        </div>
-                      </CTableDataCell>
-                      <CTableDataCell
-                        className="text-center"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          navigate(`/posts/${item.user._id}`);
-                        }}
-                      >
-                        <div>{item.posts.length}</div>
-                        {/* <CIcon size="xl" icon={item.flag} title={item.name} /> */}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <div>{item.user.followers.length}</div>
-                        {/* <CIcon size="xl" icon={item.flag} title={item.name} /> */}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <div>{item.user.following.length}</div>
-                        {/* <CIcon size="xl" icon={item.flag} title={item.name} /> */}
-                      </CTableDataCell>
-                      {/* <CTableDataCell>
-                        <div className="clearfix">
-                          <div className="float-start">
-                            <strong>{item.value}%</strong>
-                          </div>
-                          <div className="float-end">
-                            <small className="text-medium-emphasis">
-                              {item.period}
-                            </small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.color} value={item.value} />
-                      </CTableDataCell> */}
-                      <CTableDataCell className="text-center">
-                        <CAvatar
-                          size="sm"
-                          src={item.user.verified ? TickIcon : CrossIcon}
-                        />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <CAvatar
-                          size="sm"
-                          src={TrashIcon}
-                          style={{
-                            borderRadius: "0 !important",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setDeleteId(index);
-                            setIsModalOpen(true);
-                          }}
-                        />{" "}
-                        {/* <strong>{item.activity}</strong> */}
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
-                </CTableBody>
-              </CTable>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+        <div style={{ display: 'flex', gap: '234px', marginLeft: '25px', color: 'white', marginTop: '25px' }}>
+            <div style={{ marginTop: '15px' }}>
+                <p style={{ fontSize: '20px' , fontWeight:'400' , lineHeight:'25.6px' , fontFamily:'Lora' }}>Number of Downloads  : 1220</p>
+            </div>
+            <div style={{ marginTop: '15px' }}>
+                <p style={{ fontSize: '20px' , fontWeight:'400' , lineHeight:'25.6px' , fontFamily:'Lora' }}>Registered Users  : 28</p>
+            </div>
+        </div>
+
+
+
+      <hr style={{ border: '1px solid grey', marginTop: '10px', marginLeft: '15px' }}></hr>
+
+
+
+
+
+      {/* The below buttons  End Section */}
+      <CButton
+        style={{ backgroundColor: 'rgba(36, 37, 39, 1)', borderRadius: '8px', borderColor: 'rgba(84, 84, 84, 1)' }}
+        className="position-fixed bottom-0 start-0 m-4"
+        onClick={() => { }}
+      >
+        <FaArrowLeft /> Previous
+      </CButton>
+
+      <CButton
+        style={{ backgroundColor: 'rgba(36, 37, 39, 1)', borderRadius: '8px', borderColor: 'rgba(84, 84, 84, 1)' }}
+        className="position-fixed bottom-0 end-0 border-1  m-4"
+        onClick={() => { }}
+      >
+        Next <FaArrowRight />
+      </CButton>
     </>
   );
 };

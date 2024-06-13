@@ -14,6 +14,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
+
 const Register = () => {
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -56,7 +57,7 @@ const Register = () => {
                     />
                   </CInputGroup>
                   <div className="d-grid">
-                    <CButton color="success">Create Account</CButton>
+                    <CButton color="success" >Create Account</CButton>
                   </div>
                 </CForm>
               </CCardBody>

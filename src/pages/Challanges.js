@@ -1,15 +1,18 @@
 import React from "react";
 import { AppFooter, AppHeader, AppSidebar } from "src/components";
+import Challange from "src/views/challange/Challange";
 import Dashboard from "src/views/dashboard/Dashboard";
 import Post from "src/views/post/Post";
+import Reported from "src/views/reported/Reported";
 
-function PostsPage() {
+function Challanges() {
   return (
     <div>
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-      <div  style={{backgroundColor:"rgba(36, 37, 39, 1) ," , height:'100%'}}>
-          <Post />
+        <AppHeader />
+        <div className="body flex-grow-1 px-3">
+          <Challange />
         </div>
         {/* <AppFooter /> */}
       </div>
@@ -17,4 +20,4 @@ function PostsPage() {
   );
 }
 
-export default PostsPage;
+export default Challanges;
